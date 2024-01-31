@@ -1,0 +1,18 @@
+#!/bin/bash
+
+#copy stdin to clipboard
+
+copyToClipboard() {
+ printf $'e]52;c;%sa' "$(base64 <<< $(echo -e $@))"
+}
+
+if [ -p /dev/stdin ]; then
+ text=""
+ while IFS= read line; do
+ text+="${line}n"
+ done
+ copyToClipboard ${text}
+ 
+else
+ printf $'e]52;c;%sa' "$(base64 <<< $@)"
+fi
